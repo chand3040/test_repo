@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<html>
+<head>
+  <title>{% block title %}Cross Tabulation{% endblock %} | Cross Tabulation</title>
+</head>
+<body>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<div class="container">
+    {% block content %}
+    The end user should never ever see this!
+    {% endblock %}
+</div>
+
+</body>
+</html>

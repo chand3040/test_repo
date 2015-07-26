@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block title %}{{object_name}} {% endblock %}
+
+{% block content %}
+
+<form  method="post"  enctype="multipart/form-data" >{% csrf_token %}
+    <div class="file_uploader">
+        <label>Upload CSV File:</label>
+        <input required="required" id="upload_csv_only" type="file" name="upload_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+        <br/><br/>
+        <input type="submit" value="Submit" />
+    </div>
+</form>
+<link rel="stylesheet" type="text/css" href="{% static 'css/site.css' %}">
+<script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
