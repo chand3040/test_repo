@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from c_tabulation.models import CalculatedData
+from django.http import HttpResponse
 
 import csv
 import pandas as pd
@@ -19,8 +20,8 @@ def upload_or_render_csv(request):
     elif request.method =='POST':
         try:
             uploaded_file=request.FILES['upload_file']
-            if str(uploaded_file.content_type) != 'text/csv':
-               raise Exception('Incorrect file uploaded.')
+            if str(uploaded_file.content_type) not in ['application/octet-stream','application/vnd.ms-excel','text/csv']:
+               return HttpResponse('<html><body>Incorrect file type uploaded.</body></html>', status=401)
             else:#Process the request and read CSV
                 uploaded, file_name_with_path = save_file_to_disk(uploaded_file)
                 if uploaded:
@@ -31,7 +32,7 @@ def upload_or_render_csv(request):
                     context['savetabulationdata_url'] = reverse('savetabulateddata')
                     return render(request, 'c_tabulation/select_tabulation.html', context)
                 else:
-                    raise Exception('Parsing of CSV Failed. Upload a proper one')
+                    return HttpResponse('<html> <body>Parsing of CSV Failed. Upload a proper one. </body></html>', status=401)
         except Exception as errormessage:
             print errormessage
 
